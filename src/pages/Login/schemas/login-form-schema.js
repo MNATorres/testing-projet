@@ -1,16 +1,17 @@
 import * as yup from "yup";
 
-export const LoginFormSchema = Yup.objet({
+export const LoginFormSchema = yup.object({
   username: yup
     .string()
     .required("Username es requerido")
-    .max(12, "Username no puede tener mas de 12 caracteres"),
+    .max(12, "Username debe ser máximo de 12 caracteres"),
   password: yup
     .string()
     .required("Password es requerido")
-    .max(12, "Password no puede tener mas de 12 caracteres")
+    .max(12, "Password debe ser máximo de 12 caracteres")
     .matches(
-      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-      "Password debe tener al menos una mayuscula, una minuscula, un numero y un caracter especial"
-    ).required()
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      "Password debe ser alfanumérico, y contener máximo 12 caracteres, una mayúscula y un caracter especial"
+    )
+    .required(),
 });

@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LoginFormSchema } from './schemas/login-form-schema';
-import { Box, Typography } from '@mui/material';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import DisplayFormValues from './components/DisplayFormValues';
 import { callEndpoint } from './services/call-endpoint';
+import { Box } from '@mui/material'
 
 
 export default function LoginForm() {
   const { register, handleSubmit, watch, formState: { errors, isDirty, isValid }, reset } = useForm({
-    defaultValues: { userName: '', password: '' },
+    defaultValues: { username: '', password: '' },
     mode: 'onChange',
     resolver: yupResolver(LoginFormSchema)
   })
@@ -27,25 +27,32 @@ export default function LoginForm() {
 
 
   return (
-    <>
+    <Box sx={{
+      bgcolor: 'grey.300',
+      borderRadius: '30px',
+      p: '50px',
+      width: '20%'
+    }}>
       <FormProvider {... { register, errors }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CustomInput
-            name='username'
-            label='Nombre de usuario'
-            required={true}
-          />
-          <CustomInput
-            name='password'
-            label='Contraseña'
-            required={true}
-          />
-          <CustomButton isDirty={isDirty} isValid={isValid}>
-            Iniciar Sesión
-          </CustomButton>
+          <Box sx={{display:'flex', flexDirection:'column', gap: 1}}>
+            <CustomInput
+              name='username'
+              label='Nombre de usuario'
+              required={true}
+            />
+            <CustomInput
+              name='password'
+              label='Contraseña'
+              required={true}
+            />
+            <CustomButton isDirty={isDirty} isValid={isValid} type='submit'>
+              Iniciar Sesión
+            </CustomButton>
+          </Box>
         </form>
       </FormProvider>
-      <DisplayFormValues isDirty={isDirty} isValid={isValid} values={{ username: userNameWatch, password: userNameWatch }} />
-    </>
+      <DisplayFormValues isDirty={isDirty} isValid={isValid} values={{ username: userNameWatch, password: passwordWatch }} />
+    </Box>
   )
 }
